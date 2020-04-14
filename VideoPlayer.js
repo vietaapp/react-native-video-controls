@@ -91,6 +91,7 @@ export default class VideoPlayer extends Component {
             onLoad: this._onLoad.bind( this ),
             onPause: this.props.onPause,
             onPlay: this.props.onPlay,
+            onBuffer: this._onBuffer.bind( this ),
         };
 
         /**
@@ -169,7 +170,9 @@ export default class VideoPlayer extends Component {
     _onLoadStart() {
         let state = this.state;
         state.loading = true;
-        this.loadAnimation();
+        if (!this.props.loaderComponent) {
+          this.loadAnimation();
+        }
         this.setState( state );
 
         if ( typeof this.props.onLoadStart === 'function' ) {
@@ -201,6 +204,19 @@ export default class VideoPlayer extends Component {
     }
 
     /**
+     * When buffering we display a loading icon
+     * and show the controls.
+     */
+    _onBuffer() {
+        let state = this.state;
+        state.loading = true;
+        if (!this.props.loaderComponent) {
+          this.loadAnimation();
+        }
+        this.setState( state );
+    }
+
+    /**
      * For onprogress we fire listeners that
      * update our seekbar and timer.
      *
@@ -209,6 +225,7 @@ export default class VideoPlayer extends Component {
     _onProgress( data = {} ) {
         let state = this.state;
         state.currentTime = data.currentTime;
+        state.loading = false;
 
         if ( ! state.seeking ) {
             const position = this.calculateSeekerPosition();
@@ -666,7 +683,7 @@ export default class VideoPlayer extends Component {
      * Before mounting, init our seekbar and volume bar
      * pan responders.
      */
-    UNSAFE_componentWillMount() {
+    componentWillMount() {
         this.initSeekPanResponder();
         this.initVolumePanResponder();
     }
@@ -675,7 +692,7 @@ export default class VideoPlayer extends Component {
      * To allow basic playback management from the outside
      * we have to handle possible props changes to state changes
      */
-    UNSAFE_componentWillReceiveProps(nextProps) {
+    componentWillReceiveProps(nextProps) {
         if (this.state.paused !== nextProps.paused ) {
             this.setState({
                 paused: nextProps.paused
@@ -1071,19 +1088,23 @@ export default class VideoPlayer extends Component {
      */
     renderLoader() {
         if ( this.state.loading ) {
-            return (
-                <View style={ styles.loader.container }>
-                    <Animated.Image source={ require( './assets/img/loader-icon.png' ) } style={[
-                        styles.loader.icon,
-                        { transform: [
-                            { rotate: this.animations.loader.rotate.interpolate({
-                                inputRange: [ 0, 360 ],
-                                outputRange: [ '0deg', '360deg' ]
-                            })}
-                        ]}
-                    ]} />
-                </View>
-            );
+          return (
+              <View style={ styles.loader.container }>
+                {this.props.loaderComponent ?
+                  this.props.loaderComponent
+                :
+                  <Animated.Image source={ require( './assets/img/loader-icon.png' ) } style={[
+                      styles.loader.icon,
+                      { transform: [
+                          { rotate: this.animations.loader.rotate.interpolate({
+                              inputRange: [ 0, 360 ],
+                              outputRange: [ '0deg', '360deg' ]
+                          })}
+                      ]}
+                  ]} />
+                }
+              </View>
+          );
         }
         return null;
     }
@@ -1127,6 +1148,8 @@ export default class VideoPlayer extends Component {
                         onError={ this.events.onError }
                         onLoad={ this.events.onLoad }
                         onEnd={ this.events.onEnd }
+
+                        onBuffer={ this.events.onBuffer }
 
                         style={[ styles.player.video, this.styles.videoStyle ]}
 

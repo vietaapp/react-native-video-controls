@@ -108,7 +108,7 @@ export default class VideoPlayer extends Component {
          * Player information
          */
         this.player = {
-            controlTimeoutDelay: this.props.controlTimeout || 15000,
+            controlTimeoutDelay: this.props.controlTimeout ?? 15000,
             volumePanResponder: PanResponder,
             seekPanResponder: PanResponder,
             controlTimeout: null,
@@ -303,6 +303,8 @@ export default class VideoPlayer extends Component {
      * Default is 15s
      */
     setControlTimeout() {
+      if (!_.isNumber(this.player.controlTimeoutDelay)) return;
+
         this.player.controlTimeout = setTimeout( ()=> {
             this._hideControls();
         }, this.player.controlTimeoutDelay );

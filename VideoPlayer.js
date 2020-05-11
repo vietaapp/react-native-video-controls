@@ -209,7 +209,8 @@ export default class VideoPlayer extends Component {
      */
     _onBuffer() {
         let state = this.state;
-        state.loading = true;
+        if (!this.state.paused) { state.loading = true; }
+
         if (!this.props.loaderComponent) {
           this.loadAnimation();
         }

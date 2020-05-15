@@ -334,7 +334,7 @@ export default class VideoPlayer extends Component {
         Animated.parallel([
             Animated.timing(
                 this.animations.topControl.opacity,
-                { toValue: 0, useNativeDriver: true }
+                { toValue: 0, useNativeDriver: false }
             ),
             Animated.timing(
                 this.animations.topControl.marginTop,
@@ -342,7 +342,7 @@ export default class VideoPlayer extends Component {
             ),
             Animated.timing(
                 this.animations.bottomControl.opacity,
-                { toValue: 0, useNativeDriver: true }
+                { toValue: 0, useNativeDriver: false }
             ),
             Animated.timing(
                 this.animations.bottomControl.marginBottom,
@@ -360,7 +360,7 @@ export default class VideoPlayer extends Component {
         Animated.parallel([
             Animated.timing(
                 this.animations.topControl.opacity,
-                { toValue: 1, useNativeDriver: true }
+                { toValue: 1, useNativeDriver: false }
             ),
             Animated.timing(
                 this.animations.topControl.marginTop,
@@ -368,7 +368,7 @@ export default class VideoPlayer extends Component {
             ),
             Animated.timing(
                 this.animations.bottomControl.opacity,
-                { toValue: 1, useNativeDriver: true }
+                { toValue: 1, useNativeDriver: false }
             ),
             Animated.timing(
                 this.animations.bottomControl.marginBottom,
@@ -389,7 +389,7 @@ export default class VideoPlayer extends Component {
                         toValue: this.animations.loader.MAX_VALUE,
                         duration: 1500,
                         easing: Easing.linear,
-                        useNativeDriver: true,
+                        useNativeDriver: false,
                     }
                 ),
                 Animated.timing(
@@ -398,7 +398,7 @@ export default class VideoPlayer extends Component {
                         toValue: 0,
                         duration: 0,
                         easing: Easing.linear,
-                        useNativeDriver: true,
+                        useNativeDriver: false,
                     }
                 ),
             ]).start( this.loadAnimation.bind( this ) );

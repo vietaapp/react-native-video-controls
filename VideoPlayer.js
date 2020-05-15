@@ -334,19 +334,19 @@ export default class VideoPlayer extends Component {
         Animated.parallel([
             Animated.timing(
                 this.animations.topControl.opacity,
-                { toValue: 0 }
+                { toValue: 0, useNativeDriver: true }
             ),
             Animated.timing(
                 this.animations.topControl.marginTop,
-                { toValue: -100 }
+                { toValue: -100, useNativeDriver: true }
             ),
             Animated.timing(
                 this.animations.bottomControl.opacity,
-                { toValue: 0 }
+                { toValue: 0, useNativeDriver: true }
             ),
             Animated.timing(
                 this.animations.bottomControl.marginBottom,
-                { toValue: -100 }
+                { toValue: -100, useNativeDriver: true }
             ),
         ]).start();
     }
@@ -360,19 +360,19 @@ export default class VideoPlayer extends Component {
         Animated.parallel([
             Animated.timing(
                 this.animations.topControl.opacity,
-                { toValue: 1 }
+                { toValue: 1, useNativeDriver: true }
             ),
             Animated.timing(
                 this.animations.topControl.marginTop,
-                { toValue: 0 }
+                { toValue: 0, useNativeDriver: true }
             ),
             Animated.timing(
                 this.animations.bottomControl.opacity,
-                { toValue: 1 }
+                { toValue: 1, useNativeDriver: true }
             ),
             Animated.timing(
                 this.animations.bottomControl.marginBottom,
-                { toValue: 0 }
+                { toValue: 0, useNativeDriver: true }
             ),
         ]).start();
     }
@@ -389,6 +389,7 @@ export default class VideoPlayer extends Component {
                         toValue: this.animations.loader.MAX_VALUE,
                         duration: 1500,
                         easing: Easing.linear,
+                        useNativeDriver: true,
                     }
                 ),
                 Animated.timing(
@@ -397,6 +398,7 @@ export default class VideoPlayer extends Component {
                         toValue: 0,
                         duration: 0,
                         easing: Easing.linear,
+                        useNativeDriver: true,
                     }
                 ),
             ]).start( this.loadAnimation.bind( this ) );
